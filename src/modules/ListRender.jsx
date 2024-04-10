@@ -16,7 +16,7 @@ function ListRender(props) {
           </>
         ) : ("")}
 
-        <TableResults modificable={props.modificable} elemsToRender={props.elemsToRender} columnas={props.columnas} eliminarElementFunction={props.eliminarElementFunction} getIdFromRow={props.getIdFromRow}></TableResults>
+        <TableResults modificable={props.modificable} elemsToRender={props.elemsToRender} columnas={props.columnas} eliminarElementFunction={props.eliminarElementFunction} editarElementFunction={props.editarElementFunction} getIdFromRow={props.getIdFromRow}></TableResults>
       </div>
     </>
   )

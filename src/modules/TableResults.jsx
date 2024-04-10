@@ -14,7 +14,7 @@ function TableResults(props) {
                 </thead>
                 <tbody>
                     {props.elemsToRender.map((item, index) => (
-                        <RowListElements modificable={props.modificable} key={index} index={index} columnas={props.columnas} item={item} eliminarElementFunction={props.eliminarElementFunction} getIdFromRow={props.getIdFromRow}></RowListElements>
+                        <RowListElements modificable={props.modificable} key={index} index={index} columnas={props.columnas} item={item} eliminarElementFunction={props.eliminarElementFunction}  editarElementFunction={props.editarElementFunction} getIdFromRow={props.getIdFromRow}></RowListElements>
                     ))}
                 </tbody>
             </table>

@@ -194,7 +194,7 @@ function App() {
     asyncCustomQuery({ method: 'POST', URL: 'http://localhost:3000/deletePersona', body: { PERSONA_ID: PERSONA_ID }, callBack: eliminarPersonaCallback })
     console.log(PERSONA_ID)
   }
-
+  
   const eliminarViviendaCallback = (data, viviendaD) => {
     setViviendas(viviendas.filter(vivienda => vivienda.VIVIENDA_ID !== viviendaD.VIVIENDA_ID));
   }
@@ -212,6 +212,11 @@ function App() {
     asyncCustomQuery({ method: 'GET', URL: "http://localhost:3000/getPersonas", callBack: fetchPersonasCallBack })
   }
 
+  const editarPersona = (PERSONA_ID,values) => {
+    console.log(PERSONA_ID)
+  }
+  const editarViviendas = (PERSONA_ID,values) => {
+  }
   const fetchViviendasCallback = (data) => {
     setViviendas(data.data);
   }
@@ -325,6 +330,7 @@ function App() {
           columnas={columnas} handleInputChange={handleInputChange}
           handleAddElements={handleAddpersonas} elemsToRender={personas}
           eliminarElementFunction={eliminarPersona} getIdFromRow={getIdFromPersona}
+          editarElementFunction={editarPersona}
           modificable={true}></ListRender>
       }
       {activeTab === 'viviendas' && 
@@ -332,6 +338,7 @@ function App() {
           columnas={columnasVivienda} handleInputChange={handleInputChangeViviendas}
           handleAddElements={handleAddViviendas} elemsToRender={viviendas}
           eliminarElementFunction={eliminarvivienda} getIdFromRow={getIdFromVivienda}
+          editarElementFunction={editarViviendas}
           modificable={true}></ListRender>
       }
       {activeTab === 'departamentos' &&
