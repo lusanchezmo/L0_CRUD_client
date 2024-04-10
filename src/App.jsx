@@ -155,6 +155,10 @@ function App() {
       getFields: false
     }
   ]
+  
+  const reload = () => {
+    window.location.reload();
+  }
 
   const insertPersonaCallback = (data, persona) => {
     setPersonas([...personas, persona])
@@ -214,11 +218,17 @@ function App() {
     asyncCustomQuery({ method: 'GET', URL: `${apiUrl}/getPersonas`, callBack: fetchPersonasCallBack })
   }
 
-  const editarPersona = (PERSONA_ID,values) => {
-    console.log(PERSONA_ID)
+  const editPersonaCallback = (data, VALUES) => {
+    reload();
   }
-  const editarViviendas = (PERSONA_ID,values) => {
+
+  const editarPersona = (PERSONA_ID, VALUES) => {
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/editPersona`, body: { PERSONA_ID: PERSONA_ID, VALUES: VALUES }, callBack: editPersonaCallback })
   }
+  const editarViviendas = (VIVIENDA_ID, VALUES) => {
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/editVivienda`, body: { VIVIENDA_ID: VIVIENDA_ID, VALUES: VALUES }, callBack: editPersonaCallback })
+  }
+
   const fetchViviendasCallback = (data) => {
     setViviendas(data.data);
   }
