@@ -4,6 +4,8 @@ import './App.css'
 import ListRender from './modules/ListRender'
 
 import asyncCustomQuery from './helpers/asyncCustomQuery'
+const apiUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
+
 
 function App() {
   const [activeTab, setActiveTab] = useState('personas');
@@ -159,7 +161,7 @@ function App() {
   }
 
   const insertPersona = (persona) => {
-    asyncCustomQuery({ method: 'POST', URL: 'http://localhost:3000/insertPersona', body: persona, callBack: insertPersonaCallback })
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/insertPersona`, body: persona, callBack: insertPersonaCallback })
   }
 
   const insertViviendaCallback = (data, vivienda) => {
@@ -167,7 +169,7 @@ function App() {
   }
 
   const insertVivienda = (vivienda) => {
-    asyncCustomQuery({ method: 'POST', URL: 'http://localhost:3000/insertVivienda', body: vivienda, callBack: insertViviendaCallback })
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/insertVivienda`, body: vivienda, callBack: insertViviendaCallback })
   }
 
   const fetchMunicipiosCallback = (data) => {
@@ -175,7 +177,7 @@ function App() {
   }
 
   const fetchMunicipios = () => {
-    asyncCustomQuery({ method: 'GET', URL: "http://localhost:3000/getMunicipios", callBack: fetchMunicipiosCallback })
+    asyncCustomQuery({ method: 'GET', URL: `${apiUrl}/getMunicipios`, callBack: fetchMunicipiosCallback })
   }
 
   const fetchDepartamentosCallback = (data) => {
@@ -183,7 +185,7 @@ function App() {
   }
 
   const fetchDepartamentos = () => {
-    asyncCustomQuery({ method: 'GET', URL: "http://localhost:3000/getDepartamentos", callBack: fetchDepartamentosCallback })
+    asyncCustomQuery({ method: 'GET', URL: `${apiUrl}/getDepartamentos`, callBack: fetchDepartamentosCallback })
   }
 
   const eliminarPersonaCallback = (data, personaD) => {
@@ -191,7 +193,7 @@ function App() {
   }
 
   const eliminarPersona = (PERSONA_ID) => {
-    asyncCustomQuery({ method: 'POST', URL: 'http://localhost:3000/deletePersona', body: { PERSONA_ID: PERSONA_ID }, callBack: eliminarPersonaCallback })
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/deletePersona` , body: { PERSONA_ID: PERSONA_ID }, callBack: eliminarPersonaCallback })
     console.log(PERSONA_ID)
   }
   
@@ -200,7 +202,7 @@ function App() {
   }
 
   const eliminarvivienda = (vivienda_ID) => {
-    asyncCustomQuery({ method: 'POST', URL: 'http://localhost:3000/deleteVivienda', body: { VIVIENDA_ID: vivienda_ID }, callBack: eliminarViviendaCallback })
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/deleteVivienda`, body: { VIVIENDA_ID: vivienda_ID }, callBack: eliminarViviendaCallback })
     console.log(vivienda_ID)
   }
 
@@ -209,7 +211,7 @@ function App() {
   }
 
   const fetchPersonas = () => {
-    asyncCustomQuery({ method: 'GET', URL: "http://localhost:3000/getPersonas", callBack: fetchPersonasCallBack })
+    asyncCustomQuery({ method: 'GET', URL: `${apiUrl}/getPersonas`, callBack: fetchPersonasCallBack })
   }
 
   const editarPersona = (PERSONA_ID,values) => {
@@ -221,7 +223,7 @@ function App() {
     setViviendas(data.data);
   }
   const fetchViviendas = () => {
-    asyncCustomQuery({ method: 'GET', URL: "http://localhost:3000/getViviendas", callBack: fetchViviendasCallback })
+    asyncCustomQuery({ method: 'GET', URL: `${apiUrl}/getViviendas`, callBack: fetchViviendasCallback })
   }
 
   const handleInputChange = (e, index) => {
