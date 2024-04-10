@@ -6,13 +6,13 @@ function ListRender(props) {
 
   return (
     <>
-      <div>
+      <div className='contenedorCrud'>
         <h2>{props.nombre}</h2>
         {props.modificable ? (
           <>
             <TableInputs columnas={props.columnas} handleInputChange={props.handleInputChange}></TableInputs>
 
-            <button onClick={props.handleAddElements}>Agregar</button>
+            <button className='agregar' style={{marginTop:'5px'}} onClick={props.handleAddElements}>Agregar</button>
           </>
         ) : ("")}
 

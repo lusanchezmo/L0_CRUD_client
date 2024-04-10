@@ -6,7 +6,11 @@ import ListRender from './modules/ListRender'
 import asyncCustomQuery from './helpers/asyncCustomQuery'
 
 function App() {
+  const [activeTab, setActiveTab] = useState('personas');
 
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
   const [personas, setPersonas] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [viviendas, setViviendas] = useState([]);
@@ -289,27 +293,60 @@ function App() {
 
   return (
     <>
-      <ListRender nombre={"Personas"}
-        columnas={columnas} handleInputChange={handleInputChange}
-        handleAddElements={handleAddpersonas} elemsToRender={personas}
-        eliminarElementFunction={eliminarPersona} getIdFromRow={getIdFromPersona}
-        modificable={true}></ListRender>
-
-      <ListRender nombre={"Viviendas"}
-        columnas={columnasVivienda} handleInputChange={handleInputChangeViviendas}
-        handleAddElements={handleAddViviendas} elemsToRender={viviendas}
-        eliminarElementFunction={eliminarvivienda} getIdFromRow={getIdFromVivienda}
-        modificable={true}></ListRender>
-
-      <ListRender nombre={"Departamentos"}
-        columnas={columnasDepartamento}
-        elemsToRender={departamentos}
-        modificable={false}></ListRender>
-
-      <ListRender nombre={"Municipios"}
-        columnas={columnasMunicipio}
-        elemsToRender={municipios}
-        modificable={false}></ListRender>
+    <div className='contenedor'>
+      <div className="tabs">
+        <button
+          className={activeTab === 'personas' ? 'active' : 'tab'}
+          onClick={() => handleTabClick('personas')}
+        >
+          Personas
+        </button>
+        <button
+          className={activeTab === 'viviendas' ? 'active' : 'tab'}
+          onClick={() => handleTabClick('viviendas')}
+        >
+          Viviendas
+        </button>
+        <button
+          className={activeTab === 'departamentos' ? 'active' : 'tab'}
+          onClick={() => handleTabClick('departamentos')}
+        >
+          Departamentos
+        </button>
+        <button
+          className={activeTab === 'municipios' ? 'active' : 'tab'}
+          onClick={() => handleTabClick('municipios')}
+        >
+          Municipios
+        </button>
+      </div>
+      {activeTab === 'personas' && 
+        <ListRender nombre={"Personas"}
+          columnas={columnas} handleInputChange={handleInputChange}
+          handleAddElements={handleAddpersonas} elemsToRender={personas}
+          eliminarElementFunction={eliminarPersona} getIdFromRow={getIdFromPersona}
+          modificable={true}></ListRender>
+      }
+      {activeTab === 'viviendas' && 
+        <ListRender nombre={"Viviendas"}
+          columnas={columnasVivienda} handleInputChange={handleInputChangeViviendas}
+          handleAddElements={handleAddViviendas} elemsToRender={viviendas}
+          eliminarElementFunction={eliminarvivienda} getIdFromRow={getIdFromVivienda}
+          modificable={true}></ListRender>
+      }
+      {activeTab === 'departamentos' &&
+        <ListRender nombre={"Departamentos"}
+          columnas={columnasDepartamento}
+          elemsToRender={departamentos}
+          modificable={false}></ListRender>
+      }
+      {activeTab === 'municipios' && 
+        <ListRender nombre={"Municipios"}
+          columnas={columnasMunicipio}
+          elemsToRender={municipios}
+          modificable={false}></ListRender>
+      }
+    </div>
     </>
   )
 }

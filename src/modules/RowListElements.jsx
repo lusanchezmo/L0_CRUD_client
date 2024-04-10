@@ -13,8 +13,8 @@ function RowListElements(props) {
                 )) : ""}
                 {props.modificable ?
                     (<>
-                        <td><button >Editar</button></td>
-                        <td><button onClick={() => props.eliminarElementFunction(props.getIdFromRow(props.item))}>Eliminar</button></td>
+                        <td><button className='agregar' >Editar</button></td>
+                        <td><button className='agregar' onClick={() => props.eliminarElementFunction(props.getIdFromRow(props.item))}>Eliminar</button></td>
                     </>) : ("")}
 
             </tr>

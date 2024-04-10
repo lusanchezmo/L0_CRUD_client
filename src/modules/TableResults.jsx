@@ -8,8 +8,8 @@ function TableResults(props) {
 
     return (
         <>
-            <table>
-                <thead>
+            <table className='table'>
+                <thead >
                     <RowListNames columnas={props.columnas}></RowListNames>
                 </thead>
                 <tbody>

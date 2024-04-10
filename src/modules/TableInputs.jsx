@@ -6,7 +6,7 @@ function TableInputs(props) {
 
     return (
         <>
-            <table>
+            <table className='table'>
                 <thead>
                     <tr>
                         {props.columnas ? props.columnas.map((item, index) => (
