@@ -5,7 +5,7 @@ import RowListNames from './RowListNames'
 
 function TableResults(props) {
 
-
+    // console.log(props.elemsToRender)
     return (
         <>
             <table className='table'>
@@ -20,6 +20,7 @@ function TableResults(props) {
             </table>
         </>
     )
+
 }
 
 export default TableResults

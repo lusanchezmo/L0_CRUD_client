@@ -17,6 +17,11 @@ function App() {
   const [municipios, setMunicipios] = useState([]);
   const [viviendas, setViviendas] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
+  
+  useEffect(()=>{
+    console.log(personas);
+  })
+  
 
   const verificacionNulosPersona = () => {
     return estadosArray.slice(0, -1).every(objeto => objeto[0] ? true : false);
@@ -218,15 +223,34 @@ function App() {
     asyncCustomQuery({ method: 'GET', URL: `${apiUrl}/getPersonas`, callBack: fetchPersonasCallBack })
   }
 
+  const editViviendaCallback = (data, VALUES) => {
+    const updatedViviendas = viviendas.map(vivienda => {
+      if (vivienda.VIVIENDA_ID === VALUES.VIVIENDA_ID) {
+        return { ...vivienda, ...VALUES.VALUES };
+      }
+      return vivienda;
+    });
+  
+    setViviendas(updatedViviendas);
+  }
+
   const editPersonaCallback = (data, VALUES) => {
-    reload();
+    const updatedPersonas = personas.map(persona => {
+      if (persona.PERSONA_ID === VALUES.PERSONA_ID) {
+        return { ...persona, ...VALUES.VALUES };
+      }
+      return persona;
+    });
+  
+    setPersonas(updatedPersonas);
+    console.log(VALUES);
   }
 
   const editarPersona = (PERSONA_ID, VALUES) => {
     asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/editPersona`, body: { PERSONA_ID: PERSONA_ID, VALUES: VALUES }, callBack: editPersonaCallback })
   }
   const editarViviendas = (VIVIENDA_ID, VALUES) => {
-    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/editVivienda`, body: { VIVIENDA_ID: VIVIENDA_ID, VALUES: VALUES }, callBack: editPersonaCallback })
+    asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/editVivienda`, body: { VIVIENDA_ID: VIVIENDA_ID, VALUES: VALUES }, callBack: editViviendaCallback })
   }
 
   const fetchViviendasCallback = (data) => {
