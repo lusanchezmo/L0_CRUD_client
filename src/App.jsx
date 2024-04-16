@@ -6,6 +6,8 @@ import ListRender from './modules/ListRender'
 import asyncCustomQuery from './helpers/asyncCustomQuery'
 const apiUrl = import.meta.env.VITE_REACT_APP_API_BASE_URL;
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [activeTab, setActiveTab] = useState('personas');
@@ -21,15 +23,6 @@ function App() {
   useEffect(()=>{
     console.log(personas);
   })
-  
-
-  const verificacionNulosPersona = () => {
-    return estadosArray.slice(0, -1).every(objeto => objeto[0] ? true : false);
-  }
-
-  const verificacionNulosVivienda = () => {
-    return estadosArrayViviendas.slice(0, -1).every(objeto => objeto[0] ? true : false);
-  }
 
   const columnas = [
     {
@@ -91,8 +84,7 @@ function App() {
     }
   ]
   
-  const estadosArray = columnas.map(() => useState());
-
+  const estadosArray = columnas.map(() => useState(''));
 
   const columnasVivienda = [
     {
@@ -124,7 +116,7 @@ function App() {
       getFields: false
     }
   ]
-  const estadosArrayViviendas = columnasVivienda.map(() => useState());
+  const estadosArrayViviendas = columnasVivienda.map(() => useState(''));
 
   const columnasMunicipio = [
     {
@@ -291,31 +283,52 @@ function App() {
 
   const handleAddpersonas = () => {
     console.log(estadosArray);
-    if (verificacionNulosPersona()) {
       const personaNombreIndex = columnas.findIndex(columna => columna.name === 'PERSONA_NOMBRE');
-    const personaApellidoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_APELLIDO');
-    const personaEdadIndex = columnas.findIndex(columna => columna.name === 'PERSONA_EDAD');
-    const personaTelefonoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_TELEFONO');
-    const personaResponsableIndex = columnas.findIndex(columna => columna.name === 'PERSONA_RESPONSABLE');
+      const personaApellidoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_APELLIDO');
+      const personaEdadIndex = columnas.findIndex(columna => columna.name === 'PERSONA_EDAD');
+      const personaTelefonoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_TELEFONO');
+      const personaResponsableIndex = columnas.findIndex(columna => columna.name === 'PERSONA_RESPONSABLE');
+      const personaViviendaIndex = columnas.findIndex(columna => columna.name === `VIVIENDA_ID`);
+      const personaMunicipioIndex = columnas.findIndex(columna => columna.name === 'MUNICIPIO_ID');
+      const personaSexoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_SEXO');
 
-    const personaNombreValue = estadosArray[personaNombreIndex][0];
-    const personaApellidoValue = estadosArray[personaApellidoIndex][0];
-    const personaEdadValue = estadosArray[personaEdadIndex][0];
-    const personaTelefonoValue = estadosArray[personaTelefonoIndex][0];
-    const personaResponsableValue = estadosArray[personaResponsableIndex][0];
 
-    const nombreValido = /^[A-Za-z\s]+$/.test(personaNombreValue);
-    const apellidoValido = /^[A-Za-z\s]+$/.test(personaApellidoValue);
-    const edadValida = personaEdadValue >= 0 && personaEdadValue <= 150; // Verifica que la edad sea no negativa
-    const telefonoValido = /^\d{10}$/.test(personaTelefonoValue); // Verifica que el teléfono contenga solo dígitos
-    const responsableSeleccionado = personaResponsableValue !== '';
-  
-      if (nombreValido && apellidoValido && edadValida && telefonoValido && responsableSeleccionado) {
+      const personaNombreValue = estadosArray[personaNombreIndex][0];
+      const personaApellidoValue = estadosArray[personaApellidoIndex][0];
+      const personaEdadValue = estadosArray[personaEdadIndex][0];
+      const personaTelefonoValue = estadosArray[personaTelefonoIndex][0];
+      const personaResponsableValue = estadosArray[personaResponsableIndex][0];
+      const personaViviendaValue = estadosArray[personaViviendaIndex][0];
+      const personaMunicipioValue = estadosArray[personaMunicipioIndex][0];
+      const personaSexoValue = estadosArray[personaSexoIndex][0];
+
+      const nombreValido = /^[A-Za-z\s]+$/.test(personaNombreValue);
+      const apellidoValido = /^[A-Za-z\s]+$/.test(personaApellidoValue);
+      const edadValida = personaEdadValue >= 0 && personaEdadValue <= 150; // Verifica que la edad esté en el rango válido (0 a 150)
+      const telefonoValido = /^\d{10}$/.test(personaTelefonoValue); // Verifica que el teléfono tenga exactamente 10 dígitos
+      const responsableSeleccionado = personaResponsableValue !== ''; // Verifica que se haya seleccionado un representante
+      const viviendaSeleccionado = personaViviendaValue !== "";
+      const municipioSeleccionado = personaMunicipioValue !== '';
+      const sexoSeleccionado = personaSexoValue !== '';
+
+      if (nombreValido && apellidoValido && edadValida && telefonoValido && responsableSeleccionado && viviendaSeleccionado && municipioSeleccionado && sexoSeleccionado) {
         let persona = createPersona();
         insertPersona(persona);
         console.log("personas", personas);
-      } 
-    }
+      } else {
+        if (!nombreValido || !apellidoValido) {
+          toast.error("El nombre o apellido de la persona contiene caracteres no válidos");
+        }
+        if (!edadValida) {
+          toast.error("La edad de la persona debe estar entre 0 y 150 años");
+        }
+        if (!telefonoValido) {
+          toast.error("El teléfono de la persona debe tener exactamente 10 dígitos");
+        }
+        if (!viviendaSeleccionado || !responsableSeleccionado || !municipioSeleccionado || !sexoSeleccionado ) {
+          toast.error("Faltan campos por llenar");
+        }
+      }
   };
   
 
@@ -330,28 +343,45 @@ function App() {
 
   const handleAddViviendas = () => {
     console.log(estadosArrayViviendas);
-    if (verificacionNulosVivienda()) {
       const viviendaDireccionIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_DIRECCION');
       const viviendaCapacidadIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_CAPACIDAD');
       const viviendaNivelesIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_NIVELES');
       const personaIdIndex = columnasVivienda.findIndex(columna => columna.name === 'PERSONA_ID');
-  
+      const municipioIdIndex = columnasVivienda.findIndex(columna => columna.name === 'MUNICIPIO_ID');
+
       const viviendaDireccionValue = estadosArrayViviendas[viviendaDireccionIndex][0];
       const viviendaCapacidadValue = estadosArrayViviendas[viviendaCapacidadIndex][0];
       const viviendaNivelesValue = estadosArrayViviendas[viviendaNivelesIndex][0];
       const personaIdValue = estadosArrayViviendas[personaIdIndex][0];
-  
+      const municipioIdValue = estadosArrayViviendas[municipioIdIndex][0];
+
       const direccionValida = viviendaDireccionValue !== ''; // Verifica que la dirección no esté vacía
-      const capacidadValida = viviendaCapacidadValue >= 0; // Verifica que la capacidad no sea negativa
-      const nivelesValidos = viviendaNivelesValue >= 0; // Verifica que el número de niveles no sea negativo
+      const capacidadValida = viviendaCapacidadValue > 0; // Verifica que la capacidad no sea negativa
+      const nivelesValidos = viviendaNivelesValue > 0; // Verifica que el número de niveles no sea negativo
       const personaIdValido = /^\d+$/.test(personaIdValue); // Verifica que el ID de la persona tenga solo dígitos
-  
-      if (direccionValida && capacidadValida && nivelesValidos && personaIdValido) {
+      const municipioValida = municipioIdValue !== ''; // Verifica que el municipio no esté vacía
+
+      if (direccionValida && capacidadValida && nivelesValidos && personaIdValido && municipioValida) {
         let vivienda = createVivienda();
         insertVivienda(vivienda);
-        console.log("viviendas", viviendas);
-      } 
-    }
+      } else {
+        if (!direccionValida) {
+          toast.error("La dirección de la vivienda no puede estar vacía");
+        }
+        if (!capacidadValida) {
+          toast.error("La capacidad de la vivienda no puede ser negativa o 0");
+        }
+        if (!nivelesValidos) {
+          toast.error("El número de niveles de la vivienda no puede ser negativo o 0");
+        }
+        if (!personaIdValido) {
+          toast.error("El ID de la persona debe contener solo dígitos");
+        }
+        if (!municipioValida) {
+          toast.error("El ID del municipio no puede estar vacío");
+        }
+      }
+    
   };
 
   useEffect(() => {
@@ -419,8 +449,14 @@ function App() {
           modificable={false}></ListRender>
       }
     </div>
+    <ToastContainer 
+        position="top-right" 
+        autoClose={4000}
+        closeOnClick/>
     </>
   )
 }
+
+
 
 export default App
