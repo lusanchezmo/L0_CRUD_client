@@ -90,6 +90,7 @@ function App() {
       }
     }
   ]
+  
   const estadosArray = columnas.map(() => useState());
 
 
@@ -289,18 +290,34 @@ function App() {
   }
 
   const handleAddpersonas = () => {
-    console.log(estadosArray)
-    console.log(verificacionNulosPersona())
+    console.log(estadosArray);
     if (verificacionNulosPersona()) {
-      //console.log(createPersona())
-      let persona = createPersona()
+      const personaNombreIndex = columnas.findIndex(columna => columna.name === 'PERSONA_NOMBRE');
+    const personaApellidoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_APELLIDO');
+    const personaEdadIndex = columnas.findIndex(columna => columna.name === 'PERSONA_EDAD');
+    const personaTelefonoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_TELEFONO');
+    const personaResponsableIndex = columnas.findIndex(columna => columna.name === 'PERSONA_RESPONSABLE');
 
-      //setInputValueNombrePersonas('');
-      insertPersona(persona)
-      console.log("personas")
-      console.log(personas)
+    const personaNombreValue = estadosArray[personaNombreIndex][0];
+    const personaApellidoValue = estadosArray[personaApellidoIndex][0];
+    const personaEdadValue = estadosArray[personaEdadIndex][0];
+    const personaTelefonoValue = estadosArray[personaTelefonoIndex][0];
+    const personaResponsableValue = estadosArray[personaResponsableIndex][0];
+
+    const nombreValido = /^[A-Za-z\s]+$/.test(personaNombreValue);
+    const apellidoValido = /^[A-Za-z\s]+$/.test(personaApellidoValue);
+    const edadValida = personaEdadValue >= 0 && personaEdadValue <= 150; // Verifica que la edad sea no negativa
+    const telefonoValido = /^\d{10}$/.test(personaTelefonoValue); // Verifica que el teléfono contenga solo dígitos
+    const responsableSeleccionado = personaResponsableValue !== '';
+  
+      if (nombreValido && apellidoValido && edadValida && telefonoValido && responsableSeleccionado) {
+        let persona = createPersona();
+        insertPersona(persona);
+        console.log("personas", personas);
+      } 
     }
   };
+  
 
   const createVivienda = () => {
     let vivienda = {}
@@ -312,16 +329,28 @@ function App() {
   }
 
   const handleAddViviendas = () => {
-    console.log(estadosArrayViviendas)
-    console.log(verificacionNulosVivienda())
+    console.log(estadosArrayViviendas);
     if (verificacionNulosVivienda()) {
-      //console.log(createPersona())
-      let vivienda = createVivienda()
-
-      //setInputValueNombreviviendas('');
-      insertVivienda(vivienda)
-      console.log("viviendas")
-      console.log(viviendas)
+      const viviendaDireccionIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_DIRECCION');
+      const viviendaCapacidadIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_CAPACIDAD');
+      const viviendaNivelesIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_NIVELES');
+      const personaIdIndex = columnasVivienda.findIndex(columna => columna.name === 'PERSONA_ID');
+  
+      const viviendaDireccionValue = estadosArrayViviendas[viviendaDireccionIndex][0];
+      const viviendaCapacidadValue = estadosArrayViviendas[viviendaCapacidadIndex][0];
+      const viviendaNivelesValue = estadosArrayViviendas[viviendaNivelesIndex][0];
+      const personaIdValue = estadosArrayViviendas[personaIdIndex][0];
+  
+      const direccionValida = viviendaDireccionValue !== ''; // Verifica que la dirección no esté vacía
+      const capacidadValida = viviendaCapacidadValue >= 0; // Verifica que la capacidad no sea negativa
+      const nivelesValidos = viviendaNivelesValue >= 0; // Verifica que el número de niveles no sea negativo
+      const personaIdValido = /^\d+$/.test(personaIdValue); // Verifica que el ID de la persona tenga solo dígitos
+  
+      if (direccionValida && capacidadValida && nivelesValidos && personaIdValido) {
+        let vivienda = createVivienda();
+        insertVivienda(vivienda);
+        console.log("viviendas", viviendas);
+      } 
     }
   };
 
