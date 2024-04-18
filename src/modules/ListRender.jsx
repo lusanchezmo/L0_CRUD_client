@@ -3,7 +3,7 @@ import TableResults from './TableResults'
 import TableInputs from './TableInputs'
 
 function ListRender(props) {
-
+  console.log('props.columnas ',props.columnas);
   return (
     <>
       <div className='contenedorCrud'>

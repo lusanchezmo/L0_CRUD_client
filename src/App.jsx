@@ -16,6 +16,7 @@ function App() {
     setActiveTab(tab);
   };
   const [personas, setPersonas] = useState([]);
+  const [desplazados, setDesplazados] = useState([]);
   const [municipios, setMunicipios] = useState([]);
   const [viviendas, setViviendas] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -96,6 +97,33 @@ function App() {
   ]
   
   const estadosArray = columnas.map(() => useState(''));
+  const columnasDesplazado = [
+    {
+      name: `PERSONA_ID`,
+      tipe: 'select',
+      getFields: true,
+      fieldsToSet: personas,
+      funcionGetName: (persona) => {
+        return (persona.PERSONA_ID + " " + persona.PERSONA_NOMBRE)
+      },
+      funcionGetId: (persona) => {
+        return persona.PERSONA_ID
+      }
+    },
+    {
+      name: `PERSONA_NOMBRE`,
+      tipe: "text",
+      getFields: false
+    },
+    {
+      name: 'MUNICIPIO_DESPLAZAMIENTO',
+      tipe: 'text',
+      getFields: false
+    }
+  ]
+  const estadosArrayDesplazados = columnasDesplazado
+  .filter(columna => columna.name !== 'PERSONA_NOMBRE')
+  .map(() => useState(''));
 
   const columnasVivienda = [
     {
@@ -267,7 +295,12 @@ function App() {
   const handleInputChange = (e, index) => {
     //setInputValueNombrePersonas(e.target.value);
     estadosArray[index][1](e.target.value)
-    console.log(index)
+    console.log(estadosArray)
+  };
+  const handleInputChangeDesplazado = (e, index) => {
+    //setInputValueNombrePersonas(e.target.value);
+    estadosArrayDesplazados[index][1](e.target.value)
+    console.log(estadosArrayDesplazados)
   };
 
   const handleInputChangeViviendas = (e, index) => {
@@ -338,6 +371,7 @@ function App() {
         }
       }
   };
+
   
 
   const createVivienda = () => {
@@ -410,6 +444,12 @@ function App() {
           Personas
         </button>
         <button
+          className={activeTab === 'desplazados' ? 'active' : 'tab'}
+          onClick={() => handleTabClick('desplazados')}
+        >
+          desplazados
+        </button>
+        <button
           className={activeTab === 'viviendas' ? 'active' : 'tab'}
           onClick={() => handleTabClick('viviendas')}
         >
@@ -432,6 +472,14 @@ function App() {
         <ListRender nombre={"Personas"}
           columnas={columnas} handleInputChange={handleInputChange}
           handleAddElements={handleAddpersonas} elemsToRender={personas}
+          eliminarElementFunction={eliminarPersona} getIdFromRow={getIdFromPersona}
+          editarElementFunction={editarPersona}
+          modificable={true}></ListRender>
+      }
+      {activeTab === 'desplazados' && 
+        <ListRender nombre={"Personas desplazadas"}
+          columnas={columnasDesplazado} handleInputChange={handleInputChangeDesplazado}
+          handleAddElements={handleAddpersonas} elemsToRender={desplazados}
           eliminarElementFunction={eliminarPersona} getIdFromRow={getIdFromPersona}
           editarElementFunction={editarPersona}
           modificable={true}></ListRender>
