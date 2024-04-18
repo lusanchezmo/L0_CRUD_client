@@ -81,17 +81,12 @@ function App() {
         return (persona.PERSONA_ID + " " + persona.PERSONA_NOMBRE)
       },
       funcionGetId: (persona) => {
-        return persona.PERSONA_ID
+        return persona.PERSONA_NOMBRE
       }
     },
     {
       name: 'PERSONA_ID',
       tipe: 'number',
-      getFields: false
-    },
-    {
-      name: 'MUNICIPIO_DESPLAZAMIENTO',
-      tipe: 'text',
       getFields: false
     }
   ]
@@ -202,6 +197,7 @@ function App() {
   }
 
   const insertPersona = (persona) => {
+    console.log(persona);
     asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/insertPersona`, body: persona, callBack: insertPersonaCallback })
   }
 
