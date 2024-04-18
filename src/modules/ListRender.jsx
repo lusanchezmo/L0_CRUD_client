@@ -3,7 +3,6 @@ import TableResults from './TableResults'
 import TableInputs from './TableInputs'
 
 function ListRender(props) {
-  console.log('props.columnas ',props.columnas);
   return (
     <>
       <div className='contenedorCrud'>
@@ -16,7 +15,7 @@ function ListRender(props) {
           </>
         ) : ("")}
 
-        <TableResults modificable={props.modificable} elemsToRender={props.elemsToRender} columnas={props.columnas} eliminarElementFunction={props.eliminarElementFunction} editarElementFunction={props.editarElementFunction} getIdFromRow={props.getIdFromRow}></TableResults>
+        <TableResults modificable={props.modificable} elemsToRender={props.elemsToRender} columnas={props.columnas} eliminarElementFunction={props.eliminarElementFunction} editarElementFunction={props.editarElementFunction} getIdFromRow={props.getIdFromRow} desplazados={props.desplazados}></TableResults>
       </div>
     </>
   )

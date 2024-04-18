@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-
+import CustomSelect from './CustomSelect'
 function RowListElements(props) {
     const [editing, setEditing] = useState(false);
     const [values, setValues] = useState(props.item);
@@ -17,7 +17,6 @@ function RowListElements(props) {
         setEditing(false);
         props.editarElementFunction(props.getIdFromRow(props.item), values)
     };
-
     return (
         <>
 
@@ -26,13 +25,22 @@ function RowListElements(props) {
                 {props.columnas ? props.columnas.map((itemC, indexP) => (
                     
                     <td key={indexP}>
-                        {editing ? (
-                            <input
-                                type="text"
-                                value={values[itemC.name]}
-                                onChange={(e) => handleInputChange(e, itemC.name)}
-                                style={{width:'50%'}}
-                            />
+                        {editing && (props.desplazados ? itemC.name === 'MUNICIPIO_DESPLAZAMIENTO' : true) ? (
+                            props.desplazados ? (
+                                <select onChange={(e) => handleInputChange(e, itemC.name)}/*value={selectedOption} onChange={handleSelectChange}*/>
+                                    <option value="">-- Selecciona --</option>
+                                    {itemC.getFields ? itemC.fieldsToSet?.map((field, indexField) => (
+                                        <option key={indexField} value={itemC.funcionGetId ? itemC.funcionGetId(field) :itemC.funcionGetName(field)} >{itemC.funcionGetName(field)}</option>
+                                    )) : ""}
+                                </select>
+                            ) : (
+                                <input
+                                    type="text"
+                                    value={values[itemC.name]}
+                                    onChange={(e) => handleInputChange(e, itemC.name)}
+                                    style={{width:'50%'}}
+                                />
+                            )
                         ) : (
                             props.item[itemC.name]
                         )}
