@@ -23,7 +23,7 @@ function App() {
   useEffect(()=>{
     console.log(personas);
   })
-
+  
   const columnas = [
     {
       name: `MUNICIPIO_ID`,
@@ -47,7 +47,8 @@ function App() {
       funcionGetId: (vivienda) => {
         return vivienda.VIVIENDA_ID
       }
-    }, {
+    },
+    {
       name: `PERSONA_NOMBRE`,
       tipe: "text",
       getFields: false
@@ -81,6 +82,16 @@ function App() {
       funcionGetId: (persona) => {
         return persona.PERSONA_ID
       }
+    },
+    {
+      name: 'PERSONA_ID',
+      tipe: 'number',
+      getFields: false
+    },
+    {
+      name: 'MUNICIPIO_DESPLAZAMIENTO',
+      tipe: 'text',
+      getFields: false
     }
   ]
   
@@ -111,7 +122,7 @@ function App() {
       tipe: "number",
       getFields: false
     }, {
-      name: `PERSONA_ID`,
+      name: `PERSON_ID`,
       tipe: "number",
       getFields: false
     }
@@ -287,7 +298,6 @@ function App() {
       const personaApellidoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_APELLIDO');
       const personaEdadIndex = columnas.findIndex(columna => columna.name === 'PERSONA_EDAD');
       const personaTelefonoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_TELEFONO');
-      const personaResponsableIndex = columnas.findIndex(columna => columna.name === 'PERSONA_RESPONSABLE');
       const personaViviendaIndex = columnas.findIndex(columna => columna.name === `VIVIENDA_ID`);
       const personaMunicipioIndex = columnas.findIndex(columna => columna.name === 'MUNICIPIO_ID');
       const personaSexoIndex = columnas.findIndex(columna => columna.name === 'PERSONA_SEXO');
@@ -297,7 +307,6 @@ function App() {
       const personaApellidoValue = estadosArray[personaApellidoIndex][0];
       const personaEdadValue = estadosArray[personaEdadIndex][0];
       const personaTelefonoValue = estadosArray[personaTelefonoIndex][0];
-      const personaResponsableValue = estadosArray[personaResponsableIndex][0];
       const personaViviendaValue = estadosArray[personaViviendaIndex][0];
       const personaMunicipioValue = estadosArray[personaMunicipioIndex][0];
       const personaSexoValue = estadosArray[personaSexoIndex][0];
@@ -306,12 +315,11 @@ function App() {
       const apellidoValido = /^[A-Za-z\s]+$/.test(personaApellidoValue);
       const edadValida = personaEdadValue >= 0 && personaEdadValue <= 150; // Verifica que la edad esté en el rango válido (0 a 150)
       const telefonoValido = /^\d{10}$/.test(personaTelefonoValue); // Verifica que el teléfono tenga exactamente 10 dígitos
-      const responsableSeleccionado = personaResponsableValue !== ''; // Verifica que se haya seleccionado un representante
       const viviendaSeleccionado = personaViviendaValue !== "";
       const municipioSeleccionado = personaMunicipioValue !== '';
       const sexoSeleccionado = personaSexoValue !== '';
 
-      if (nombreValido && apellidoValido && edadValida && telefonoValido && responsableSeleccionado && viviendaSeleccionado && municipioSeleccionado && sexoSeleccionado) {
+      if (nombreValido && apellidoValido && edadValida && telefonoValido && viviendaSeleccionado && municipioSeleccionado && sexoSeleccionado) {
         let persona = createPersona();
         insertPersona(persona);
         console.log("personas", personas);
@@ -325,7 +333,7 @@ function App() {
         if (!telefonoValido) {
           toast.error("El teléfono de la persona debe tener exactamente 10 dígitos");
         }
-        if (!viviendaSeleccionado || !responsableSeleccionado || !municipioSeleccionado || !sexoSeleccionado ) {
+        if (!viviendaSeleccionado || !municipioSeleccionado || !sexoSeleccionado ) {
           toast.error("Faltan campos por llenar");
         }
       }
@@ -346,7 +354,7 @@ function App() {
       const viviendaDireccionIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_DIRECCION');
       const viviendaCapacidadIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_CAPACIDAD');
       const viviendaNivelesIndex = columnasVivienda.findIndex(columna => columna.name === 'VIVIENDA_NIVELES');
-      const personaIdIndex = columnasVivienda.findIndex(columna => columna.name === 'PERSONA_ID');
+      const personaIdIndex = columnasVivienda.findIndex(columna => columna.name === 'PERSON_ID');
       const municipioIdIndex = columnasVivienda.findIndex(columna => columna.name === 'MUNICIPIO_ID');
 
       const viviendaDireccionValue = estadosArrayViviendas[viviendaDireccionIndex][0];
