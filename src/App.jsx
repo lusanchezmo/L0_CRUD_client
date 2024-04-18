@@ -87,11 +87,6 @@ function App() {
       name: 'PERSONA_ID',
       tipe: 'number',
       getFields: false
-    },
-    {
-      name: 'MUNICIPIO_DESPLAZAMIENTO',
-      tipe: 'text',
-      getFields: false
     }
   ]
   
@@ -174,6 +169,7 @@ function App() {
   }
 
   const insertPersona = (persona) => {
+    console.log(persona);
     asyncCustomQuery({ method: 'POST', URL: `${apiUrl}/insertPersona`, body: persona, callBack: insertPersonaCallback })
   }
 

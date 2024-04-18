@@ -9,14 +9,14 @@ function TableInputs(props) {
             <table className='table'>
                 <thead>
                     <tr>
-                        {props.columnas ? props.columnas.filter(item => item.name !== 'PERSONA_ID' && item.name !== 'MUNICIPIO_DESPLAZAMIENTO').map((item, index) => (
+                        {props.columnas ? props.columnas.filter(item => item.name !== 'PERSONA_ID').map((item, index) => (
                             <th key={index}>{item.name}</th>
                         )) : ""}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        {props.columnas ? props.columnas.filter(item => item.name !== 'PERSONA_ID' && item.name !== 'MUNICIPIO_DESPLAZAMIENTO').map((item, index) => {
+                        {props.columnas ? props.columnas.filter(item => item.name !== 'PERSONA_ID').map((item, index) => {
                             switch (item.tipe) {
                                 case 'select':
                                     return <th key={index}>
