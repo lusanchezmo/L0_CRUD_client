@@ -80,7 +80,7 @@ function App() {
         return (persona.PERSONA_ID + " " + persona.PERSONA_NOMBRE)
       },
       funcionGetId: (persona) => {
-        return persona.PERSONA_ID
+        return persona.PERSONA_NOMBRE
       }
     },
     {
